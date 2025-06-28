@@ -1,15 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createRoot } from "react-dom/client";
-import "./index.css";
+import './output.css';
 
-import App from "./App";
-import Onboarding from "./pages/Onboarding";
+import App from "./App.js";
+import Onboarding from "./pages/Onboarding.jsx";
 import Home from "./pages/Home.jsx";
-import Loading from "./pages/Loading";
-import Stream from "./pages/Stream";
+import Loading from "./pages/Loading.jsx";
+import Stream from "./pages/Stream.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import reportWebVitals from "./reportWebVitals";
+import reportWebVitals from "./reportWebVitals.js";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
