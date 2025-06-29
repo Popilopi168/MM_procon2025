@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import './output.css';
+import './input.css';
 
 import App from "./App.js";
 import Onboarding from "./pages/Onboarding.jsx";
