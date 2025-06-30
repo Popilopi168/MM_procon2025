@@ -92,16 +92,16 @@ export default function Stream() {
                     <ChatContainer phrase={currentPhrase} />
                 </div>
 
-                <div className="bg-white p-4 flex gap-2">
+                <div className="bg-[#FEFFEF] p-4 flex gap-2">
                     <input 
                         ref={inp} 
-                        className="flex-grow border p-2 rounded"
-                        placeholder="Type a message..."
+                        className="flex-grow border-2 border-[#004098] p-2 rounded-3xl"
+                        placeholder="Send a superchat..."
                         onKeyPress={(e) => e.key === 'Enter' && send()}
                     />
                     <button 
                         onClick={send}
-                        className="px-4 py-2 bg-[#004098] text-white rounded hover:bg-[#003080] transition-colors"
+                        className="px-4 py-2 bg-[#004098] text-white rounded-3xl hover:bg-[#003080] transition-colors"
                     >
                         Send
                     </button>

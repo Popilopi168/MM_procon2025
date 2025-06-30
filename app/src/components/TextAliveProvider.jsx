@@ -21,7 +21,7 @@ export default function TextAliveProvider({ children }) {
         token: "djzM9MqQFAfcSiWs"
       },
       mediaElement: mediaElementRef.current,
-      mediaBannerPosition: "bottom right"
+      mediaBannerPosition: "bottom left"
     });
 
     playerRef.current = player;
@@ -91,7 +91,7 @@ export default function TextAliveProvider({ children }) {
       {/* Hidden container for TextAlive's media element */}
       <div 
         ref={mediaElementRef} 
-        style={{ position: 'fixed', top: '-9999px', left: '-9999px' }}
+        style={{ position: 'fixed', top: '0px', left: '0px' }}
       />
       {children}
     </>
