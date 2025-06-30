@@ -26,7 +26,7 @@ function Onboarding() {
         <div className="absolute top-6 right-6">
             <button 
                 className="rounded-3xl text-[#FEFFEF] border border-[#FEFFEF] px-4 py-2 hover:opacity-70 transition-opacity duration-300"
-                onClick={() => navigate("/home")}
+                onClick={() => navigate(`/home?hasAccess=${hasAccess}`)}
             >
                 SKIP →
             </button>

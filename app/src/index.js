@@ -10,6 +10,8 @@ import Stream from "./pages/Stream.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals.js";
 
+import { PlayerProvider } from "./context/PlayerContext";
+
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/onboarding", element: <Onboarding /> },
@@ -20,9 +22,9 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <PlayerProvider>
+      <RouterProvider router={router} />
+  </PlayerProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
