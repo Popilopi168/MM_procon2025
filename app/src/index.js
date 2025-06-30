@@ -11,6 +11,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals.js";
 
 import { PlayerProvider } from "./context/PlayerContext";
+import TextAliveProvider from "./components/TextAliveProvider";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -23,7 +24,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <PlayerProvider>
+    <TextAliveProvider>
       <RouterProvider router={router} />
+    </TextAliveProvider>
   </PlayerProvider>
 );
 

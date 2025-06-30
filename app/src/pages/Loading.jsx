@@ -1,11 +1,10 @@
+// Updated Loading.jsx to work with new approach
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlayerContext } from "../context/PlayerContext";
-import usePreloadPlayer from "../utils/preloader";
 import FullScreenSpinner from "../components/FullScreenSpinner";
 
 export default function Loading() {
-  usePreloadPlayer();                         // kick off SDK + hook
   const { isReady } = useContext(PlayerContext);
   const navigate = useNavigate();
 
@@ -13,9 +12,7 @@ export default function Loading() {
     if (isReady) {
       navigate("/stream" + window.location.search);
     }
-  }, [isReady]);
+  }, [isReady, navigate]);
 
-  return <>
-  <FullScreenSpinner text="Loading music & lyrics…" />
-  </>;
+  return <FullScreenSpinner text="Loading music & lyrics…" />;
 }
