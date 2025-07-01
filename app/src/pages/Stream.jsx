@@ -1,19 +1,31 @@
 // Simplified Stream.jsx
 import { useContext, useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { PlayerContext } from "../context/PlayerContext";
+import { GestureContext } from "../context/GestureContext";
+import GestureIndicator from "../components/GestureIndicator";
+import useGestureUtils from "../utils/gestureUtils";
 
 import ChatContainer from "../components/Chat/ChatContainer";
 import SuperChat from "../components/Chat/SuperChat";
 
 export default function Stream() {
     const { player, currentPhrase, isReady } = useContext(PlayerContext);
+    const { currentGesture, isModelReady } = useContext(GestureContext);
     const [superMsg, setSuper] = useState(null);
     const [started, setStarted] = useState(false);
     const [isInitializing, setIsInitializing] = useState(false);
     const inp = useRef(null);
+    const location = useLocation();
+
+    // Check if user has camera access
+    const hasAccess = new URLSearchParams(location.search).get("hasAccess") === "true";
+    
+    // Initialize gesture detection (hook must always be called)
+    const { videoRef, canvasRef } = useGestureUtils(hasAccess);
 
     const clickToStart = async () => {
-        if (!isReady || !player || isInitializing) {
+        if (!isReady || !player || isInitializing || !isModelReady) {
             console.warn("Not ready to play");
             return;
         }
@@ -60,6 +72,37 @@ export default function Stream() {
 
     return (
         <div className="h-screen flex">
+            {/* Hidden video and canvas for gesture detection */}
+            <video
+                ref={videoRef}
+                style={{ position: 'absolute', top: '-9999px', left: '-9999px', width: '1px', height: '1px' }}
+                autoPlay
+                playsInline
+                muted
+            />
+            <canvas
+                ref={canvasRef}
+                style={{ position: 'absolute', top: '-9999px', left: '-9999px', width: '1px', height: '1px' }}
+            />
+            
+            {/* Gesture action indicator */}
+            <GestureIndicator 
+                gesture={currentGesture}
+            />
+
+            {/* Gesture control overlay */}
+            {currentGesture && started && hasAccess && (
+                <div className="absolute top-4 left-4 bg-black/80 text-white p-4 rounded-lg z-40">
+                    <h3 className="text-lg font-bold mb-2">Gesture Controls:</h3>
+                    <ul className="space-y-1 text-sm">
+                        <li>✌️ Peace - Send super chat</li>
+                        <li>👍 Thumbs up - Volume up</li>
+                        <li>✊ Fist - Play/Pause</li>
+                        <li>✋ Open palm - Show this menu</li>
+                    </ul>
+                </div>
+            )}
+
             {!started && (
                 <button
                     onClick={clickToStart}

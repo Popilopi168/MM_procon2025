@@ -1,4 +1,4 @@
-// New TextAliveProvider component to handle initialization
+// TextAliveProvider component to handle initialization
 import { useEffect, useRef } from "react";
 import { Player } from "textalive-app-api";
 import { useContext } from "react";
