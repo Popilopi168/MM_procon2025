@@ -11,7 +11,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals.js";
 
 import { PlayerProvider } from "./context/PlayerContext";
-import { GestureProvider } from "./context/GestureContext";
 import TextAliveProvider from "./components/TextAliveProvider";
 
 const router = createBrowserRouter([
@@ -25,11 +24,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <PlayerProvider>
-    <GestureProvider>
-      <TextAliveProvider>
-        <RouterProvider router={router} />
-      </TextAliveProvider>
-    </GestureProvider>
+    <TextAliveProvider>
+      <RouterProvider router={router} />
+    </TextAliveProvider>
   </PlayerProvider>
 );
 

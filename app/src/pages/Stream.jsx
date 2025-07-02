@@ -1,31 +1,34 @@
-// Simplified Stream.jsx
+// pages/Stream.jsx
 import { useContext, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { PlayerContext } from "../context/PlayerContext";
-import { GestureContext } from "../context/GestureContext";
-import GestureIndicator from "../components/GestureIndicator";
-import useGestureUtils from "../utils/gestureUtils";
+import useGestureDetection from "../hooks/useGestureDetection";
+import GestureDisplay from "../components/GestureDisplay";
 
 import ChatContainer from "../components/Chat/ChatContainer";
 import SuperChat from "../components/Chat/SuperChat";
 
 export default function Stream() {
     const { player, currentPhrase, isReady } = useContext(PlayerContext);
-    const { currentGesture, isModelReady } = useContext(GestureContext);
+    const location = useLocation();
     const [superMsg, setSuper] = useState(null);
     const [started, setStarted] = useState(false);
     const [isInitializing, setIsInitializing] = useState(false);
     const inp = useRef(null);
-    const location = useLocation();
 
     // Check if user has camera access
     const hasAccess = new URLSearchParams(location.search).get("hasAccess") === "true";
-    
-    // Initialize gesture detection (hook must always be called)
-    const { videoRef, canvasRef } = useGestureUtils(hasAccess);
+
+    // Initialize gesture detection (auto-starts if camera access is granted and stream started)
+    const { 
+        videoRef, 
+        currentGesture,
+        isLoading: isGestureLoading,
+        error: gestureError
+    } = useGestureDetection(hasAccess && started, 2000); // Check every 2 seconds
 
     const clickToStart = async () => {
-        if (!isReady || !player || isInitializing || !isModelReady) {
+        if (!isReady || !player || isInitializing) {
             console.warn("Not ready to play");
             return;
         }
@@ -38,7 +41,6 @@ export default function Stream() {
             console.log("Playback started");
         } catch (error) {
             console.error("Play failed:", error);
-            // Simple retry
             setTimeout(async () => {
                 try {
                     await player.requestPlay();
@@ -71,37 +73,42 @@ export default function Stream() {
     }
 
     return (
-        <div className="h-screen flex">
-            {/* Hidden video and canvas for gesture detection */}
-            <video
-                ref={videoRef}
-                style={{ position: 'absolute', top: '-9999px', left: '-9999px', width: '1px', height: '1px' }}
-                autoPlay
-                playsInline
-                muted
-            />
-            <canvas
-                ref={canvasRef}
-                style={{ position: 'absolute', top: '-9999px', left: '-9999px', width: '1px', height: '1px' }}
-            />
-            
-            {/* Gesture action indicator */}
-            <GestureIndicator 
-                gesture={currentGesture}
-            />
+        <div className="h-screen flex relative">
+            {/* Hidden video element for camera feed */}
+            {hasAccess && (
+                <video 
+                    ref={videoRef} 
+                    style={{ display: 'none' }}
+                    autoPlay
+                    playsInline
+                    muted
+                />
+            )}
 
-            {/* Gesture control overlay */}
-            {currentGesture && started && hasAccess && (
-                <div className="absolute top-4 left-4 bg-black/80 text-white p-4 rounded-lg z-40">
-                    <h3 className="text-lg font-bold mb-2">Gesture Controls:</h3>
-                    <ul className="space-y-1 text-sm">
-                        <li>✌️ Peace - Send super chat</li>
-                        <li>👍 Thumbs up - Volume up</li>
-                        <li>✊ Fist - Play/Pause</li>
-                        <li>✋ Open palm - Show this menu</li>
-                    </ul>
+            {/* Gesture status indicator */}
+            {hasAccess && started && (
+                <div className={`absolute top-4 right-4 flex items-center gap-2 px-3 py-1 rounded-full text-sm z-40 ${
+                    gestureError ? 'bg-red-500/80' : 
+                    isGestureLoading ? 'bg-yellow-500/80' : 'bg-green-500/80'
+                } text-white`}>
+                    <div className={`w-2 h-2 rounded-full ${
+                        isGestureLoading ? 'bg-white animate-pulse' : 'bg-white'
+                    }`} />
+                    {gestureError ? 'Camera error' :
+                     isGestureLoading ? 'Initializing...' : 'Gesture detection active'}
                 </div>
             )}
+
+            {/* Error display */}
+            {gestureError && hasAccess && (
+                <div className="absolute top-16 right-4 bg-red-500/90 text-white p-3 rounded-lg text-sm max-w-xs z-40">
+                    <p className="font-bold">Error:</p>
+                    <p>{gestureError}</p>
+                </div>
+            )}
+
+            {/* Gesture display */}
+            <GestureDisplay gesture={currentGesture} />
 
             {!started && (
                 <button
@@ -116,6 +123,11 @@ export default function Stream() {
                     <div className="text-2xl">
                         {isInitializing ? "Starting..." : "Tap to start"}
                     </div>
+                    {hasAccess && (
+                        <div className="text-sm text-gray-300 mt-4">
+                            Gesture detection will start automatically
+                        </div>
+                    )}
                 </button>
             )}
 
@@ -135,16 +147,16 @@ export default function Stream() {
                     <ChatContainer phrase={currentPhrase} />
                 </div>
 
-                <div className="bg-[#FEFFEF] p-4 flex gap-2">
+                <div className="bg-white p-4 flex gap-2">
                     <input 
                         ref={inp} 
-                        className="flex-grow border-2 border-[#004098] p-2 rounded-3xl"
-                        placeholder="Send a superchat..."
+                        className="flex-grow border p-2 rounded"
+                        placeholder="Type a message..."
                         onKeyPress={(e) => e.key === 'Enter' && send()}
                     />
                     <button 
                         onClick={send}
-                        className="px-4 py-2 bg-[#004098] text-white rounded-3xl hover:bg-[#003080] transition-colors"
+                        className="px-4 py-2 bg-[#004098] text-white rounded hover:bg-[#003080] transition-colors"
                     >
                         Send
                     </button>
