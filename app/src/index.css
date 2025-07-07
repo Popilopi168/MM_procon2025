@@ -1,0 +1,26 @@
+.speech-bubble {
+    position: relative;
+  }
+  
+  .speech-bubble::before,
+  .speech-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -12px;
+    right: 10px;
+  }
+  
+  .speech-bubble::before {
+    border-width: 12px 12px 0 0;
+    border-style: solid;
+    border-color: #001d70 transparent transparent transparent;
+    transform: rotate(-45deg);
+  }
+  
+  .speech-bubble::after {
+    width: 12px; height: 12px;
+    background: #001d70;
+    border-radius: 50% 0 0 0;
+    transform: translate(-6px, -6px) rotate(-45deg);
+  } /* creates a curved “comic” tail :contentReference[oaicite:6]{index=6} */
+  

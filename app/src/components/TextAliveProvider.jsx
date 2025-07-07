@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { PlayerContext } from "../context/PlayerContext";
 
 export default function TextAliveProvider({ children }) {
-  const { setPlayer, setReady, setPhrase, setBeat } = useContext(PlayerContext);
+  const { setPlayer, setReady, setPhrase, setBeat, setIsSinging } = useContext(PlayerContext);
   const playerRef = useRef(null);
   const mediaElementRef = useRef(null);
   const initialized = useRef(false);
@@ -20,8 +20,9 @@ export default function TextAliveProvider({ children }) {
       app: { 
         token: "djzM9MqQFAfcSiWs"
       },
+      vocalAmplitudeEnabled: true,
       mediaElement: mediaElementRef.current,
-      mediaBannerPosition: "bottom left"
+      mediaBannerPosition: "top left"
     });
 
     playerRef.current = player;
@@ -70,6 +71,11 @@ export default function TextAliveProvider({ children }) {
         const phrase = player.video.findPhrase(position);
         if (phrase) setPhrase(phrase);
         const beat = player.findBeat(position);
+
+        const amplitude = player.getVocalAmplitude(position);
+        setIsSinging(amplitude > 25000);
+
+        console.log(amplitude);
         setBeat(beat?.position ?? 0);
       },
       

@@ -3,7 +3,7 @@ import lyricIcon from "../../assets/lyric_icon.png";
 
 export default function SuperChat({ superMsg }) {
   const [visible, setVisible] = useState(false);
-  const donation = Math.floor(Math.random() * 100);
+  const donation = 100;
 
   useEffect(() => {
     if (!superMsg) return;

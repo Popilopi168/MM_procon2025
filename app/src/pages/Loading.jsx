@@ -14,5 +14,5 @@ export default function Loading() {
     }
   }, [isReady, navigate]);
 
-  return <FullScreenSpinner text="Loading music & lyrics…" />;
+  return <FullScreenSpinner text="STARTING SOON" />;
 }

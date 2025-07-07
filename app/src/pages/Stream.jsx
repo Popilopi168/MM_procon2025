@@ -1,16 +1,22 @@
 // pages/Stream.jsx
 import { useContext, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PlayerContext } from "../context/PlayerContext";
 import useGestureDetection from "../hooks/useGestureDetection";
 import GestureDisplay from "../components/GestureDisplay";
 
 import ChatContainer from "../components/Chat/ChatContainer";
 import SuperChat from "../components/Chat/SuperChat";
+import miku from "../assets/miku.png";
+import miku_singing from "../assets/miku_singing.png";
+import Five from "../components/Five";
+import exit from "../assets/exit_icon.png";
+import { BackgroundBeams } from "../components/BackgroundBeams";
 
 export default function Stream() {
-    const { player, currentPhrase, isReady } = useContext(PlayerContext);
+    const { player, currentPhrase, isReady, isSinging } = useContext(PlayerContext);
     const location = useLocation();
+    const navigate = useNavigate();
     const [superMsg, setSuper] = useState(null);
     const [started, setStarted] = useState(false);
     const [isInitializing, setIsInitializing] = useState(false);
@@ -73,7 +79,11 @@ export default function Stream() {
     }
 
     return (
-        <div className="h-screen flex relative">
+        <div className="h-screen flex relative bg-gradient-to-b from-black to-[#001d70]">
+            <BackgroundBeams />
+            <button className="absolute w-[50px] h-[50px] top-5 left-5 z-20">
+                <img src={exit} onClick={() => navigate("/home"+ window.location.search)}/>
+            </button>
             {/* Hidden video element for camera feed */}
             {hasAccess && (
                 <video 
@@ -131,37 +141,42 @@ export default function Stream() {
                 </button>
             )}
 
-            <section className="flex-grow relative bg-black/10">
+            {/* miku stream */}
+            <section className="flex-grow relative">
+                <img src={isSinging ? miku_singing : miku} alt="miku" className="p-8 absolute top-10 left-5 w-full h-full object-cover" />
+                <Five />
                 {started && currentPhrase && (
-                    <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 
-                                    text-white text-3xl bg-black/50 px-8 py-4 rounded-lg
-                                    max-w-4xl text-center">
+                    <div className="speech-bubble absolute top-20 left-20 
+                                    text-white text-xl bg-[#001d70] px-8 py-4 rounded-lg
+                                    max-w-[200px] text-center">
                         {currentPhrase.text}
                     </div>
                 )}
             </section>
 
-            <aside className="w-96 flex flex-col bg-gradient-to-b from-[#001d70] to-[#032250]">
-                <SuperChat superMsg={superMsg} />
-                <div className="flex-grow overflow-hidden">
-                    <ChatContainer phrase={currentPhrase} />
-                </div>
+            <div className="flex flex-row p-8 z-20">
+                <div className="w-96 flex flex-col bg-gradient-to-b from-[#001d70] to-[#032250]">
+                    <SuperChat superMsg={superMsg} />
+                    <div className="flex-grow overflow-hidden">
+                        <ChatContainer phrase={currentPhrase} />
+                    </div>
 
-                <div className="bg-[#FEFFEF] p-4 flex gap-2">
-                    <input 
-                        ref={inp} 
-                        className="flex-grow border-2 border-[#004098] p-2 rounded-3xl"
-                        placeholder="Type a message..."
-                        onKeyPress={(e) => e.key === 'Enter' && send()}
-                    />
-                    <button 
-                        onClick={send}
-                        className="px-4 py-2 bg-[#004098] text-white rounded-3xl hover:bg-[#003080] transition-colors"
-                    >
-                        Send
-                    </button>
+                    <div className="bg-[#FEFFEF] p-4 flex gap-2">
+                        <input 
+                            ref={inp} 
+                            className="flex-grow border-2 border-[#004098] p-2 rounded-3xl"
+                            placeholder="Type a message..."
+                            onKeyPress={(e) => e.key === 'Enter' && send()}
+                        />
+                        <button 
+                            onClick={send}
+                            className="px-4 py-2 bg-[#004098] text-white rounded-3xl hover:bg-[#003080] transition-colors"
+                        >
+                            Send
+                        </button>
+                    </div>
                 </div>
-            </aside>
+            </div>
         </div>
     );
 }

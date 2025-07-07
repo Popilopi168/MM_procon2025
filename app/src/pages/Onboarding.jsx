@@ -72,7 +72,9 @@ function Onboarding() {
                         <img src={gesture} className="" />
                     </div>           
                 </div>
-                <img className="w-[83px] p-2" />
+                <button onClick={() => navigate(`/home?hasAccess=${hasAccess}`)}>
+                    <img src={next} className="w-[83px] p-2" />
+                </button>
             </div>    
         }
         {hasAccess && (

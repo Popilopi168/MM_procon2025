@@ -38,7 +38,7 @@ export default function GestureDisplay({ gesture }) {
       ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}
     `}>
       <div className="flex items-center gap-4">
-        <span className="text-5xl animate-bounce">{info.emoji}</span>
+        <span className="text-5xl animate-bounce animate-pulse">{info.emoji}</span>
         <div>
           <p className="text-lg font-bold">Gesture Detected</p>
           <p className="text-2xl">{info.name}</p>
