@@ -16,6 +16,7 @@ import wave from "../assets/wave.png";
 import peace from "../assets/peace.png";
 import Five from "../components/Five";
 import exit from "../assets/exit_icon.png";
+import decor from "../assets/decor.png";
 import { BackgroundBeams } from "../components/BackgroundBeams";
 
 export default function Stream() {
@@ -85,7 +86,10 @@ export default function Stream() {
 
     return (
         <div className="h-screen flex relative bg-gradient-to-b from-black to-[#001d70]">
+            <img src={decor} alt="decor" className="absolute top-0 left-0 w-[50%]" />
+            <img src={decor} alt="decor" className="absolute bottom-10 left-1/2 w-[20%]" />
             <BackgroundBeams />
+            
             <button className="absolute w-[50px] h-[50px] top-5 left-5 z-20">
                 <img src={exit} onClick={() => navigate("/home"+ window.location.search)}/>
             </button>
