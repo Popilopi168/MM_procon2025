@@ -155,13 +155,13 @@ export default function Stream() {
             </section>
 
             <div className="flex flex-row p-8 z-20">
-                <div className="w-96 flex flex-col bg-gradient-to-b from-[#001d70] to-[#032250]">
+                <div className="w-96 flex flex-col bg-gradient-to-b from-[#001d70] to-[#032250] rounded-lg">
                     <SuperChat superMsg={superMsg} />
                     <div className="flex-grow overflow-hidden">
                         <ChatContainer phrase={currentPhrase} />
                     </div>
 
-                    <div className="bg-[#FEFFEF] p-4 flex gap-2">
+                    <div className="bg-[#FEFFEF] p-4 flex gap-2 rounded-b-lg">
                         <input 
                             ref={inp} 
                             className="flex-grow border-2 border-[#004098] p-2 rounded-3xl"
