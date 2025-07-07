@@ -80,7 +80,7 @@ export default function GestureDisplay({ gesture }) {
       )}
 
       {/* Falling images */}
-      {falling.map(({ id, image, x, delay, duration }) => (
+      {(displayGesture=="fist" || displayGesture=="thumbsUp") && falling.map(({ id, image, x, delay, duration }) => (
         <motion.div
           key={id}
           initial={{ y: -50, opacity: 1 }}

@@ -7,8 +7,13 @@ import GestureDisplay from "../components/GestureDisplay";
 
 import ChatContainer from "../components/Chat/ChatContainer";
 import SuperChat from "../components/Chat/SuperChat";
+
 import miku from "../assets/miku.png";
-import miku_singing from "../assets/miku_singing.png";
+import miku_openmouse from "../assets/miku_openmouse.png";
+import miku_closemouse from "../assets/miku_closemouse.png";
+import right_arm from "../assets/right_arm.png";
+import wave from "../assets/wave.png";
+import peace from "../assets/peace.png";
 import Five from "../components/Five";
 import exit from "../assets/exit_icon.png";
 import { BackgroundBeams } from "../components/BackgroundBeams";
@@ -143,7 +148,9 @@ export default function Stream() {
 
             {/* miku stream */}
             <section className="flex-grow relative">
-                <img src={isSinging ? miku_singing : miku} alt="miku" className="p-8 absolute top-10 left-5 w-full h-full object-cover" />
+            <img src={miku} alt="miku" className="p-8 absolute top-10 left-5 w-full h-full object-cover animate-breathing" />
+            <img src={isSinging ? miku_openmouse : miku_closemouse} alt="miku" className="p-8 absolute top-10 left-5 w-full h-full object-cover" />               
+            <img src={currentGesture==="openPalm" ? wave : currentGesture==="peace" ? peace : right_arm} alt="miku" className="p-8 absolute top-10 left-5 w-full h-full object-cover" />               
                 <Five />
                 {started && currentPhrase && (
                     <div className="speech-bubble absolute top-20 left-20 
