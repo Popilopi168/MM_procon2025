@@ -91,7 +91,16 @@ export default function Stream() {
             <BackgroundBeams />
             
             <button className="absolute w-[50px] h-[50px] top-5 left-5 z-20">
-                <img src={exit} onClick={() => navigate("/home"+ window.location.search)}/>
+                <img src={exit} onClick={() => {
+                    // Stop the music and reset state
+                    if (player) {
+                        player.requestPause();
+                    }
+                    setStarted(false);
+                    setSuper(null);
+                    // Navigate back to home
+                    navigate("/home" + window.location.search);
+                }}/>
             </button>
             {/* Hidden video element for camera feed */}
             {hasAccess && (
