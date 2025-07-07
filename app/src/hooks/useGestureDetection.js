@@ -1,7 +1,7 @@
 // hooks/useGestureDetection.js
 import { useEffect, useRef, useState } from 'react';
 
-export default function useGestureDetection(isEnabled = true, checkInterval = 2000) {
+export default function useGestureDetection(isEnabled = true, checkInterval = 1000) {
   const videoRef = useRef(null);
   const [currentGesture, setCurrentGesture] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
