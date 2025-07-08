@@ -23,5 +23,5 @@ Follow the onboarding prompts to learn chatting and gesture controls, then tap â
 
 ## Credentials
 
-- Designer: Claire
+- Designer: GRIDDDD
 - Programmer: Popilopi
