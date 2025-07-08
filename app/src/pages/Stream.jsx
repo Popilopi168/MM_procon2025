@@ -8,7 +8,7 @@ import GestureDisplay from "../components/GestureDisplay";
 import ChatContainer from "../components/Chat/ChatContainer";
 import SuperChat from "../components/Chat/SuperChat";
 
-import miku from "../assets/miku.png";
+import miku from "../assets/miku.webm";
 import miku_openmouse from "../assets/miku_openmouse.png";
 import miku_closemouse from "../assets/miku_closemouse.png";
 import right_arm from "../assets/right_arm.png";
@@ -161,7 +161,7 @@ export default function Stream() {
 
             {/* miku stream */}
             <section className="flex-grow relative">
-            <img src={miku} alt="miku" className="p-8 absolute top-10 left-5 w-full h-full object-cover animate-breathing" />
+            <video autoPlay loop muted playsInline src={miku} alt="miku" className="p-8 absolute top-10 left-5 w-full h-full object-cover animate-breathing" />
             <img src={isSinging ? miku_openmouse : miku_closemouse} alt="miku" className="p-8 absolute top-10 left-5 w-full h-full object-cover" />               
             <img src={currentGesture==="openPalm" ? wave : currentGesture==="peace" ? peace : right_arm} alt="miku" className="p-8 absolute top-10 left-5 w-full h-full object-cover" />               
                 <Five />
